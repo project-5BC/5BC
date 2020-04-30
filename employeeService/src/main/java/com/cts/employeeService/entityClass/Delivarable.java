@@ -19,26 +19,26 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="users")
-public class User {
+@Table
+public class Delivarable {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer userId;
-	
-	@Column(name="username",length = 100)
-	private String userName;
-	
-	@Column(name="password")
-	private String password;
-	
-	@Column(name="role")
-	private String role;
+	private Integer id;
 	
 	@Column
-	private Integer managerId;
+	private Integer employeeId;
 	
 	@Column
-	private Boolean enabled;
+	private String pojectName;
+	
+	@Column
+	private String remarks;
+	
+	@Column
+	private Boolean rated;
+	
+	@Column
+	private Boolean reviewed;
 	
 }
-

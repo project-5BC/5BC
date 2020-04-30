@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseData {
-	private String message;
-	private Long timeStamp;
-	private Integer userId;
-	private Integer managerId;
-	private String userName;
-	private String role;
+public class DelivarableModel {
+	private Integer EmployeeId;
+	private String projectname;
+	private String remarks;
 }
