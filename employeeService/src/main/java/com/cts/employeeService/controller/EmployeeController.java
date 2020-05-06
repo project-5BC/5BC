@@ -1,17 +1,32 @@
 package com.cts.employeeService.controller;
 
+import java.util.List;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cts.employeeService.entityClass.Delivarable;
+import com.cts.employeeService.entityClass.User;
 import com.cts.employeeService.modelClass.DelivarableModel;
 import com.cts.employeeService.modelClass.DelivarableStatus;
 import com.cts.employeeService.service.EmployeeService;
 
+import io.swagger.annotations.Api;
+
+@ControllerAdvice
 @RestController
+@Api
+@RefreshScope
 public class EmployeeController {
 	
 	@Autowired
@@ -19,10 +34,15 @@ public class EmployeeController {
 	
 	private org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@RequestMapping("/")
+	public String home() {
+		return "welcome to employee management";
+	}
+	
 	@PostMapping("/saveDelivarable")
 	public void saveDelivarable(@RequestBody DelivarableModel delivarableModel ) {
 		
-		logger.info("In Controller ==========>>>>>>>>>>>       "+delivarableModel.getEmployeeId());
+		//logger.info("In Controller ----> "+delivarableModel.getEmployeeId());
 		
 		this.employeeService.saveDelivarable(delivarableModel);
 		
@@ -38,6 +58,16 @@ public class EmployeeController {
 	public void updatedelivarableReviewStatus(@RequestBody DelivarableStatus delivarableStatus) {
 		
 		this.employeeService.updateDelivarableReviewStatus(delivarableStatus);
+	}
+	
+	@GetMapping("/userDetails/{employeeId}/{managerId}")
+	public ResponseEntity<User> getDetailsByEmployeeIdAndBymanagerId(@PathVariable Integer employeeId,@PathVariable Integer managerId){
+		return this.employeeService.getUserByManagerId(employeeId, managerId);
+	}
+	
+	@GetMapping("/getDelivarables/{employeeId}")
+	public ResponseEntity<List<Delivarable>> getDelivarablesByEmployeeId(@PathVariable Integer employeeId){
+		return this.employeeService.getDelivarablesByEmployeeId(employeeId);
 	}
 	
 }
